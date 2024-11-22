@@ -135,48 +135,48 @@ async function main(): Promise<void> {
     post: {
       api: [
         {
-          name: `api-${featureName}.ts`,
-          template: "api-template.ts",
+          name: `api-${featureName}.txt`,
+          template: "api-template.txt",
         },
       ],
       lib: [
         {
-          name: `map-${featureName}-dto-to-req.ts`,
-          template: "map-dto-to-req-template.ts",
+          name: `map-${featureName}-dto-to-req.txt`,
+          template: "map-dto-to-req-template.txt",
         },
         {
-          name: `map-${featureName}-rsp-to-dto.ts`,
-          template: "map-rsp-to-dto-template.ts",
+          name: `map-${featureName}-rsp-to-dto.txt`,
+          template: "map-rsp-to-dto-template.txt",
         },
       ],
       "model/factories": [
         {
-          name: `${featureName}-dto-factory.ts`,
-          template: "dto-factory-template.ts",
+          name: `${featureName}-dto-factory.txt`,
+          template: "dto-factory-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.ts`,
-          template: "req-template.ts",
+          name: `${toPascalCase(featureName)}Req.txt`,
+          template: "req-template.txt",
         },
       ],
       "model/types/responses": [
         {
-          name: `${toPascalCase(featureName)}Rsp.ts`,
-          template: "rsp-template.ts",
+          name: `${toPascalCase(featureName)}Rsp.txt`,
+          template: "rsp-template.txt",
         },
       ],
       "model/types": [
         {
-          name: `${toPascalCase(featureName)}Dto.ts`,
-          template: "dto-template.ts",
+          name: `${toPascalCase(featureName)}Dto.txt`,
+          template: "dto-template.txt",
         },
       ],
       "model/validation-rules": [
         {
-          name: `${featureName}-validation-rules.ts`,
-          template: "validation-rules-template.ts",
+          name: `${featureName}-validation-rules.txt`,
+          template: "validation-rules-template.txt",
         },
       ],
       ui: [
@@ -187,8 +187,8 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.ts`,
-          template: "test-template.ts",
+          name: `${featureName}.test.txt`,
+          template: "test-template.txt",
         },
       ],
     },
@@ -196,26 +196,26 @@ async function main(): Promise<void> {
       model: {
         api: [
           {
-            name: `api-${featureName}.ts`,
-            template: "api-template.ts",
+            name: `api-${featureName}.txt`,
+            template: "api-template.txt",
           },
         ],
         lib: [
           {
-            name: `map-${featureName}-rsp-to-dto.ts`,
-            template: "map-rsp-to-dto-template.ts",
+            name: `map-${featureName}-rsp-to-dto.txt`,
+            template: "map-rsp-to-dto-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.ts`,
-            template: "rsp-template.ts",
+            name: `${toPascalCase(featureName)}Rsp.txt`,
+            template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.ts`,
-            template: "dto-template.ts",
+            name: `${toPascalCase(featureName)}Dto.txt`,
+            template: "dto-template.txt",
           },
         ],
         ui: [
@@ -226,28 +226,28 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.ts`,
-            template: "test-template.ts",
+            name: `${featureName}.test.txt`,
+            template: "test-template.txt",
           },
         ],
       },
       collection: {
         api: [
           {
-            name: `api-${featureName}.ts`,
-            template: "api-template.ts",
+            name: `api-${featureName}.txt`,
+            template: "api-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.ts`,
-            template: "rsp-template.ts",
+            name: `${toPascalCase(featureName)}Rsp.txt`,
+            template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.ts`,
-            template: "dto-template.ts",
+            name: `${toPascalCase(featureName)}Dto.txt`,
+            template: "dto-template.txt",
           },
         ],
         ui: [
@@ -258,34 +258,34 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.ts`,
-            template: "test-template.ts",
+            name: `${featureName}.test.txt`,
+            template: "test-template.txt",
           },
         ],
       },
       paginate: {
         api: [
           {
-            name: `api-${featureName}.ts`,
-            template: "api-template.ts",
+            name: `api-${featureName}.txt`,
+            template: "api-template.txt",
           },
         ],
         lib: [
           {
-            name: `map-${featureName}-rsp-to-dto.ts`,
-            template: "map-rsp-to-dto-template.ts",
+            name: `map-${featureName}-rsp-to-dto.txt`,
+            template: "map-rsp-to-dto-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.ts`,
-            template: "rsp-template.ts",
+            name: `${toPascalCase(featureName)}Rsp.txt`,
+            template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.ts`,
-            template: "dto-template.ts",
+            name: `${toPascalCase(featureName)}Dto.txt`,
+            template: "dto-template.txt",
           },
         ],
         ui: [
@@ -296,8 +296,8 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.ts`,
-            template: "test-template.ts",
+            name: `${featureName}.test.txt`,
+            template: "test-template.txt",
           },
         ],
       },
@@ -305,48 +305,48 @@ async function main(): Promise<void> {
     put: {
       api: [
         {
-          name: `api-${featureName}.ts`,
-          template: "api-template.ts",
+          name: `api-${featureName}.txt`,
+          template: "api-template.txt",
         },
       ],
       lib: [
         {
-          name: `map-${featureName}-dto-to-req.ts`,
-          template: "map-dto-to-req-template.ts",
+          name: `map-${featureName}-dto-to-req.txt`,
+          template: "map-dto-to-req-template.txt",
         },
         {
-          name: `map-${featureName}-rsp-to-dto.ts`,
-          template: "map-rsp-to-dto-template.ts",
+          name: `map-${featureName}-rsp-to-dto.txt`,
+          template: "map-rsp-to-dto-template.txt",
         },
       ],
       "model/factories": [
         {
-          name: `${featureName}-dto-factory.ts`,
-          template: "dto-factory-template.ts",
+          name: `${featureName}-dto-factory.txt`,
+          template: "dto-factory-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.ts`,
-          template: "req-template.ts",
+          name: `${toPascalCase(featureName)}Req.txt`,
+          template: "req-template.txt",
         },
       ],
       "model/types/responses": [
         {
-          name: `${toPascalCase(featureName)}Rsp.ts`,
-          template: "rsp-template.ts",
+          name: `${toPascalCase(featureName)}Rsp.txt`,
+          template: "rsp-template.txt",
         },
       ],
       "model/types": [
         {
-          name: `${toPascalCase(featureName)}Dto.ts`,
-          template: "dto-template.ts",
+          name: `${toPascalCase(featureName)}Dto.txt`,
+          template: "dto-template.txt",
         },
       ],
       "model/validation-rules": [
         {
-          name: `${featureName}-validation-rules.ts`,
-          template: "validation-rules-template.ts",
+          name: `${featureName}-validation-rules.txt`,
+          template: "validation-rules-template.txt",
         },
       ],
       ui: [
@@ -357,22 +357,22 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.ts`,
-          template: "test-template.ts",
+          name: `${featureName}.test.txt`,
+          template: "test-template.txt",
         },
       ],
     },
     delete: {
       api: [
         {
-          name: `api-${featureName}.ts`,
-          template: "api-template.ts",
+          name: `api-${featureName}.txt`,
+          template: "api-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.ts`,
-          template: "req-template.ts",
+          name: `${toPascalCase(featureName)}Req.txt`,
+          template: "req-template.txt",
         },
       ],
       ui: [
@@ -383,8 +383,8 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.ts`,
-          template: "test-template.ts",
+          name: `${featureName}.test.txt`,
+          template: "test-template.txt",
         },
       ],
     },

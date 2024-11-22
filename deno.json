@@ -8,16 +8,11 @@
   "tasks": {
     "dev": "deno run --watch main.ts",
     "start": "deno run --allow-read --allow-write main.ts"
-
   },
   "imports": {
     "@cliffy/prompt": "jsr:@cliffy/prompt@^1.0.0-rc.7",
-    "@std/assert": "jsr:@std/assert@1",
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
     "@std/fs": "jsr:@std/fs@1",
     "@std/path": "jsr:@std/path@1"
-  },
-  "exclude": ["templates/**/*"],
-  "bin": {
-    "scaffold-feature": "scaffold-feature"
   }
 }
