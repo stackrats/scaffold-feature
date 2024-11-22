@@ -1,0 +1,17 @@
+{
+  "name": "@stackrats/scaffold-feature",
+  "version": "1.0.0",
+  "exports": {
+    "./main.ts": "./main.ts"
+  },
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "start": "deno run --allow-read --allow-write main.ts"
+  },
+  "imports": {
+    "@cliffy/prompt": "jsr:@cliffy/prompt@^1.0.0-rc.7",
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/fs": "jsr:@std/fs@1",
+    "@std/path": "jsr:@std/path@1"
+  }
+}
