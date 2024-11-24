@@ -1,7 +1,8 @@
 import { Checkbox, Input, Select } from "@cliffy/prompt";
-import { ensureDir, exists } from "@std/fs";
-import { dirname, fromFileUrl, join } from "@std/path";
+import { ensureDir } from "@std/fs";
+import { join } from "@std/path";
 
+// Utility Functions
 function toPascalCase(str: string): string {
   return str.replace(
     /(?:^|-)(\w)/g,
@@ -26,7 +27,7 @@ function isKebabCasePath(str: string): boolean {
   return segments.every((segment) => isKebabCase(segment));
 }
 
-// Define interfaces for better type safety
+// Interfaces for Type Safety
 interface FileEntry {
   name: string;
   template: string;
@@ -51,6 +52,37 @@ interface FileConfig {
   delete: DirectoryConfig;
 }
 
+enum ApiMethodOptions {
+  GET = "get",
+  POST = "post",
+  PUT = "put",
+  DELETE = "delete",
+}
+
+enum ApiMethodGetReturnTypeOptions {
+  MODEL = "model",
+  COLLECTION = "collection",
+  PAGINATE = "paginate",
+}
+
+// Function to Fetch Template Content
+async function fetchTemplate(
+  templatePath: string,
+): Promise<string> {
+  try {
+    const response = await fetch(templatePath);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch template at ${templatePath}: ${response.statusText}`,
+      );
+    }
+    return await response.text();
+  } catch (error) {
+    console.error(`Error fetching template from ${templatePath}:`, error);
+    return "";
+  }
+}
+
 async function main(): Promise<void> {
   let parentDir = "";
   // Prompt for parent directory and enforce kebab-case for each segment
@@ -59,6 +91,10 @@ async function main(): Promise<void> {
       message:
         "Enter parent directory (can include multiple slashes for nested dirs):",
     });
+
+    if (!parentDir) {
+      break;
+    }
 
     if (isKebabCasePath(parentDir)) {
       break;
@@ -85,13 +121,6 @@ async function main(): Promise<void> {
     }
   }
 
-  enum ApiMethodOptions {
-    GET = "get",
-    POST = "post",
-    PUT = "put",
-    DELETE = "delete",
-  }
-
   // Prompt for API method
   const apiMethod = await Select.prompt<ApiMethodOptions>({
     message: "Choose an API method:",
@@ -102,12 +131,6 @@ async function main(): Promise<void> {
       ApiMethodOptions.DELETE,
     ],
   }) as ApiMethodOptions;
-
-  enum ApiMethodGetReturnTypeOptions {
-    MODEL = "model",
-    COLLECTION = "collection",
-    PAGINATE = "paginate",
-  }
 
   let getReturnType: ApiMethodGetReturnTypeOptions | undefined = undefined;
   if (apiMethod === ApiMethodOptions.GET) {
@@ -121,14 +144,6 @@ async function main(): Promise<void> {
       ],
     }) as ApiMethodGetReturnTypeOptions;
   }
-
-  // Define root path
-  const rootPath = "src/features";
-
-  // Construct the full feature path
-  const featurePath = parentDir
-    ? join(rootPath, parentDir, featureName)
-    : join(rootPath, featureName);
 
   // Configuration object mapping API methods and additional options to files
   const fileConfig: FileConfig = {
@@ -393,7 +408,7 @@ async function main(): Promise<void> {
   // Determine the method configuration based on API method and return type
   let methodConfig: DirectoryConfig;
 
-  if (apiMethod === "get") {
+  if (apiMethod === ApiMethodOptions.GET) {
     if (getReturnType) {
       methodConfig = fileConfig.get[getReturnType];
     } else {
@@ -432,30 +447,15 @@ async function main(): Promise<void> {
   // Prompt to select directories
   const selectedDirectories: string[] = await Checkbox.prompt({
     message: "Select the directories to include for this feature:",
-    options: availableDirectories,
+    options: availableDirectories.map((dir) => ({ name: dir, value: dir })),
     minOptions: 1,
     default: defaultSelections,
   });
 
   // Ensure selected directories exist
   for (const dir of selectedDirectories) {
-    const fullDirPath = join(featurePath, dir);
+    const fullDirPath = join("src/features", parentDir, featureName, dir);
     await ensureDir(fullDirPath);
-  }
-
-  // Set templates directory based on API method and additional options
-  const __dirname = dirname(fromFileUrl(import.meta.url));
-  let templatesDir = join(
-    __dirname,
-    "templates",
-    "scaffold",
-    "feature",
-    apiMethod.toLowerCase(),
-  );
-
-  // Adjust templates directory for GET return type
-  if (apiMethod === "get" && getReturnType) {
-    templatesDir = join(templatesDir, getReturnType);
   }
 
   // Function to get files based on selected directories and API method
@@ -482,54 +482,73 @@ async function main(): Promise<void> {
   // Get the files to create based on selected directories
   const files = getFiles();
 
+  // Base URL for templates (assuming templates are in the same repository)
+  const scriptUrl = import.meta.url;
+  const baseUrl = new URL(
+    `templates/scaffold/feature/${apiMethod}/`,
+    scriptUrl,
+  );
+
   // Create files
   for (const file of files) {
-    const dirPath = join(featurePath, file.path);
+    const dirPath = join("src/features", parentDir, featureName, file.path);
     const filePath = join(dirPath, file.name);
-    const existsFile = await exists(filePath);
 
-    // Ensure the directory exists
-    await ensureDir(dirPath);
-
-    if (!existsFile) {
-      // Construct the template path
-      let templatePath = join(templatesDir, file.template);
-
-      // Fallback to common templates if specific ones are not found
-      if (!(await exists(templatePath))) {
-        templatePath = join(
-          __dirname,
-          "templates",
-          "scaffold",
-          "feature",
-          file.template,
-        );
+    try {
+      // Check if file already exists
+      let existsFile = false;
+      try {
+        await Deno.stat(filePath);
+        existsFile = true;
+      } catch (error) {
+        if (error instanceof Deno.errors.NotFound) {
+          existsFile = false;
+        } else {
+          throw error;
+        }
       }
 
-      let content = "";
+      if (!existsFile) {
+        // Construct the template URL
+        const templateUrl = getReturnType
+          ? new URL(`${getReturnType}/${file.template}`, baseUrl).href
+          : new URL(file.template, baseUrl).href;
 
-      // Check if template file exists
-      if (await exists(templatePath)) {
-        content = await Deno.readTextFile(templatePath);
-        // Replace placeholders in the template
-        content = content.replace(/\{\{featurePath\}\}/g, featurePath);
-        content = content.replace(/\{\{feature-name\}\}/g, featureName);
-        content = content.replace(
-          /\{\{FeatureName\}\}/g,
-          toPascalCase(featureName),
-        );
-        content = content.replace(
-          /\{\{featureName\}\}/g,
-          toCamelCase(featureName),
-        );
+        console.log(`Fetching template from: ${templateUrl}`);
+
+        // Fetch the template content
+        const templateContent = await fetchTemplate(templateUrl);
+
+        if (templateContent) {
+          // Replace placeholders
+          let content = templateContent.replace(
+            /\{\{featurePath\}\}/g,
+            featureName,
+          );
+          content = content.replace(/\{\{feature-name\}\}/g, featureName);
+          content = content.replace(
+            /\{\{FeatureName\}\}/g,
+            toPascalCase(featureName),
+          );
+          content = content.replace(
+            /\{\{featureName\}\}/g,
+            toCamelCase(featureName),
+          );
+
+          // Write the content to the file
+          await Deno.writeTextFile(filePath, content);
+          console.log(`Created file: ${filePath}`);
+        } else {
+          console.log(
+            `Template "${file.template}" not found. Creating empty file: ${filePath}`,
+          );
+          await Deno.writeTextFile(filePath, "");
+        }
       } else {
-        console.log(`Template ${templatePath} not found. Creating empty file.`);
+        console.log(`File "${filePath}" already exists, skipping.`);
       }
-
-      await Deno.writeTextFile(filePath, content);
-      console.log(`Created file: ${filePath}`);
-    } else {
-      console.log(`File ${filePath} already exists, skipping.`);
+    } catch (error) {
+      console.error(`Error creating file "${filePath}":`, error);
     }
   }
 
