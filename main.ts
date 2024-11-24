@@ -496,7 +496,7 @@ async function main(): Promise<void> {
   );
 
   // Define root path
-  const rootPath = "src/features";
+  const rootPath = "features";
 
   // Construct the full feature path
   const featurePath = parentDir

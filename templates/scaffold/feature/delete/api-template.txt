@@ -1,4 +1,4 @@
-import { ApiMethods } from '@/shared/model/enums/ApiMethods'
+import { ApiMethods } from '@/shared/model/enums/api/ApiMethods'
 import { useApiRequest } from '@/composables/useApiRequest'
 
 import type { AxiosResponse } from 'axios'
