@@ -1,5 +1,5 @@
-import { useApiRequest } from '@/composables/useApiRequest'
 import { ApiMethods } from '@/shared/model/enums/ApiMethods'
+import { useApiRequest } from '@/composables/useApiRequest'
 
 import type { AxiosResponse } from 'axios'
 import type { {{FeatureName}}Rsp } from '@/{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'

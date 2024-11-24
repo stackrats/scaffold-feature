@@ -291,6 +291,12 @@ async function main(): Promise<void> {
             template: "map-rsp-to-dto-template.txt",
           },
         ],
+        "model/types/requests": [
+          {
+            name: `${toPascalCase(featureName)}Req.ts`,
+            template: "req-template.txt",
+          },
+        ],
         "model/types/responses": [
           {
             name: `${toPascalCase(featureName)}Rsp.ts`,
@@ -489,6 +495,14 @@ async function main(): Promise<void> {
     scriptUrl,
   );
 
+  // Define root path
+  const rootPath = "src/features";
+
+  // Construct the full feature path
+  const featurePath = parentDir
+    ? join(rootPath, parentDir, featureName)
+    : join(rootPath, featureName);
+
   // Create files
   for (const file of files) {
     const dirPath = join("src/features", parentDir, featureName, file.path);
@@ -523,7 +537,7 @@ async function main(): Promise<void> {
           // Replace placeholders
           let content = templateContent.replace(
             /\{\{featurePath\}\}/g,
-            featureName,
+            featurePath,
           );
           content = content.replace(/\{\{feature-name\}\}/g, featureName);
           content = content.replace(
