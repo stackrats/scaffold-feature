@@ -1,6 +1,6 @@
 import { Checkbox, Input, Select } from "@cliffy/prompt";
 import { ensureDir, exists } from "@std/fs";
-import { join } from "@std/path";
+import { dirname, fromFileUrl, join } from "@std/path";
 
 function toPascalCase(str: string): string {
   return str.replace(
@@ -135,47 +135,47 @@ async function main(): Promise<void> {
     post: {
       api: [
         {
-          name: `api-${featureName}.txt`,
+          name: `api-${featureName}.ts`,
           template: "api-template.txt",
         },
       ],
       lib: [
         {
-          name: `map-${featureName}-dto-to-req.txt`,
+          name: `map-${featureName}-dto-to-req.ts`,
           template: "map-dto-to-req-template.txt",
         },
         {
-          name: `map-${featureName}-rsp-to-dto.txt`,
+          name: `map-${featureName}-rsp-to-dto.ts`,
           template: "map-rsp-to-dto-template.txt",
         },
       ],
       "model/factories": [
         {
-          name: `${featureName}-dto-factory.txt`,
+          name: `${featureName}-dto-factory.ts`,
           template: "dto-factory-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.txt`,
+          name: `${toPascalCase(featureName)}Req.ts`,
           template: "req-template.txt",
         },
       ],
       "model/types/responses": [
         {
-          name: `${toPascalCase(featureName)}Rsp.txt`,
+          name: `${toPascalCase(featureName)}Rsp.ts`,
           template: "rsp-template.txt",
         },
       ],
       "model/types": [
         {
-          name: `${toPascalCase(featureName)}Dto.txt`,
+          name: `${toPascalCase(featureName)}Dto.ts`,
           template: "dto-template.txt",
         },
       ],
       "model/validation-rules": [
         {
-          name: `${featureName}-validation-rules.txt`,
+          name: `${featureName}-validation-rules.ts`,
           template: "validation-rules-template.txt",
         },
       ],
@@ -187,7 +187,7 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.txt`,
+          name: `${featureName}.test.ts`,
           template: "test-template.txt",
         },
       ],
@@ -196,25 +196,25 @@ async function main(): Promise<void> {
       model: {
         api: [
           {
-            name: `api-${featureName}.txt`,
+            name: `api-${featureName}.ts`,
             template: "api-template.txt",
           },
         ],
         lib: [
           {
-            name: `map-${featureName}-rsp-to-dto.txt`,
+            name: `map-${featureName}-rsp-to-dto.ts`,
             template: "map-rsp-to-dto-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.txt`,
+            name: `${toPascalCase(featureName)}Rsp.ts`,
             template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.txt`,
+            name: `${toPascalCase(featureName)}Dto.ts`,
             template: "dto-template.txt",
           },
         ],
@@ -226,7 +226,7 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.txt`,
+            name: `${featureName}.test.ts`,
             template: "test-template.txt",
           },
         ],
@@ -234,19 +234,19 @@ async function main(): Promise<void> {
       collection: {
         api: [
           {
-            name: `api-${featureName}.txt`,
+            name: `api-${featureName}.ts`,
             template: "api-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.txt`,
+            name: `${toPascalCase(featureName)}Rsp.ts`,
             template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.txt`,
+            name: `${toPascalCase(featureName)}Dto.ts`,
             template: "dto-template.txt",
           },
         ],
@@ -258,7 +258,7 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.txt`,
+            name: `${featureName}.test.ts`,
             template: "test-template.txt",
           },
         ],
@@ -266,25 +266,25 @@ async function main(): Promise<void> {
       paginate: {
         api: [
           {
-            name: `api-${featureName}.txt`,
+            name: `api-${featureName}.ts`,
             template: "api-template.txt",
           },
         ],
         lib: [
           {
-            name: `map-${featureName}-rsp-to-dto.txt`,
+            name: `map-${featureName}-rsp-to-dto.ts`,
             template: "map-rsp-to-dto-template.txt",
           },
         ],
         "model/types/responses": [
           {
-            name: `${toPascalCase(featureName)}Rsp.txt`,
+            name: `${toPascalCase(featureName)}Rsp.ts`,
             template: "rsp-template.txt",
           },
         ],
         "model/types": [
           {
-            name: `${toPascalCase(featureName)}Dto.txt`,
+            name: `${toPascalCase(featureName)}Dto.ts`,
             template: "dto-template.txt",
           },
         ],
@@ -296,7 +296,7 @@ async function main(): Promise<void> {
         ],
         __tests__: [
           {
-            name: `${featureName}.test.txt`,
+            name: `${featureName}.test.ts`,
             template: "test-template.txt",
           },
         ],
@@ -305,47 +305,47 @@ async function main(): Promise<void> {
     put: {
       api: [
         {
-          name: `api-${featureName}.txt`,
+          name: `api-${featureName}.ts`,
           template: "api-template.txt",
         },
       ],
       lib: [
         {
-          name: `map-${featureName}-dto-to-req.txt`,
+          name: `map-${featureName}-dto-to-req.ts`,
           template: "map-dto-to-req-template.txt",
         },
         {
-          name: `map-${featureName}-rsp-to-dto.txt`,
+          name: `map-${featureName}-rsp-to-dto.ts`,
           template: "map-rsp-to-dto-template.txt",
         },
       ],
       "model/factories": [
         {
-          name: `${featureName}-dto-factory.txt`,
+          name: `${featureName}-dto-factory.ts`,
           template: "dto-factory-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.txt`,
+          name: `${toPascalCase(featureName)}Req.ts`,
           template: "req-template.txt",
         },
       ],
       "model/types/responses": [
         {
-          name: `${toPascalCase(featureName)}Rsp.txt`,
+          name: `${toPascalCase(featureName)}Rsp.ts`,
           template: "rsp-template.txt",
         },
       ],
       "model/types": [
         {
-          name: `${toPascalCase(featureName)}Dto.txt`,
+          name: `${toPascalCase(featureName)}Dto.ts`,
           template: "dto-template.txt",
         },
       ],
       "model/validation-rules": [
         {
-          name: `${featureName}-validation-rules.txt`,
+          name: `${featureName}-validation-rules.ts`,
           template: "validation-rules-template.txt",
         },
       ],
@@ -357,7 +357,7 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.txt`,
+          name: `${featureName}.test.ts`,
           template: "test-template.txt",
         },
       ],
@@ -365,13 +365,13 @@ async function main(): Promise<void> {
     delete: {
       api: [
         {
-          name: `api-${featureName}.txt`,
+          name: `api-${featureName}.ts`,
           template: "api-template.txt",
         },
       ],
       "model/types/requests": [
         {
-          name: `${toPascalCase(featureName)}Req.txt`,
+          name: `${toPascalCase(featureName)}Req.ts`,
           template: "req-template.txt",
         },
       ],
@@ -383,7 +383,7 @@ async function main(): Promise<void> {
       ],
       __tests__: [
         {
-          name: `${featureName}.test.txt`,
+          name: `${featureName}.test.ts`,
           template: "test-template.txt",
         },
       ],
@@ -444,7 +444,14 @@ async function main(): Promise<void> {
   }
 
   // Set templates directory based on API method and additional options
-  let templatesDir = `./templates/scaffold/feature/${apiMethod.toLowerCase()}`;
+  const __dirname = dirname(fromFileUrl(import.meta.url));
+  let templatesDir = join(
+    __dirname,
+    "templates",
+    "scaffold",
+    "feature",
+    apiMethod.toLowerCase(),
+  );
 
   // Adjust templates directory for GET return type
   if (apiMethod === "get" && getReturnType) {
@@ -488,10 +495,15 @@ async function main(): Promise<void> {
       // Construct the template path
       let templatePath = join(templatesDir, file.template);
 
-      // Check if the template file exists in the specific templatesDir
+      // Fallback to common templates if specific ones are not found
       if (!(await exists(templatePath))) {
-        // If not, check in the common templates directory
-        templatePath = join("./templates/scaffold/feature", file.template);
+        templatePath = join(
+          __dirname,
+          "templates",
+          "scaffold",
+          "feature",
+          file.template,
+        );
       }
 
       let content = "";
