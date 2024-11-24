@@ -5,7 +5,7 @@ export function map{{FeatureName}}RspToDto(
   rsp: {{FeatureName}}Rsp,
 ): {{FeatureName}}Dto {
   return {
-    page: rsp.meta.page,
+    page: rsp.meta.currentPage,
     perPage: rsp.meta.perPage
   }
 }
