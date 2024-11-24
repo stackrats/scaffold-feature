@@ -6,7 +6,6 @@ export function map{{FeatureName}}DtoToReq(
 ): {{FeatureName}}Req {
   return {
     page: dto.page,
-    perPage: dto.perPage,
-    orderBy: dto.orderBy,
+    perPage: dto.perPage
   }
 }

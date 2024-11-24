@@ -16,7 +16,6 @@ export const api{{FeatureName}} = async (
     config: {
       params: {
         page: req.page,
-        sortBy: req.sortBy,
         orderBy: req.orderBy,
         perPage: req.perPage
       }

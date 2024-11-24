@@ -6,7 +6,6 @@ export function map{{FeatureName}}RspToDto(
 ): {{FeatureName}}Dto {
   return {
     page: rsp.meta.page,
-    perPage: rsp.meta.perPage,
-    orderBy: rsp.meta.orderBy,
+    perPage: rsp.meta.perPage
   }
 }
