@@ -5,6 +5,6 @@ export function map{{FeatureName}}DtoToReq(
   dto: {{FeatureName}}Dto,
 ): {{FeatureName}}Req {
   return {
-    name: dto.name,
+    name: dto.name ?? ',
   }
 }

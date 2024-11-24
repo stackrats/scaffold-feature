@@ -1,4 +1,4 @@
-import type { {{FeatureName}}Rsp } from '@/{{featurePath}}/model/types/requests/{{FeatureName}}Rsp'
+import type { {{FeatureName}}Rsp } from '@/{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'
 import type { {{FeatureName}}Dto } from '@/{{featurePath}}/model/types/{{FeatureName}}Dto'
 
 export function map{{FeatureName}}RspToDto(

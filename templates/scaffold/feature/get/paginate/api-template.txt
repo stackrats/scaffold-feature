@@ -14,10 +14,12 @@ export const api{{FeatureName}} = async (
     method: ApiMethods.GET,
     url: '{{feature-name}}',
     config: {
-      page: req.page,
-      sortBy: req.sortBy,
-      orderBy: req.orderBy,
-      perPage: req.perPage
+      params: {
+        page: req.page,
+        sortBy: req.sortBy,
+        orderBy: req.orderBy,
+        perPage: req.perPage
+      }
     },
     actions: [],
   })
