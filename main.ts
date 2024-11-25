@@ -89,7 +89,7 @@ async function main(): Promise<void> {
   while (true) {
     parentDir = await Input.prompt({
       message:
-        "Enter parent directory (can include multiple slashes for nested dirs):",
+        "Enter parent directory (or leave empty for features/):",
     });
 
     if (!parentDir) {
@@ -123,10 +123,10 @@ async function main(): Promise<void> {
 
   // Prompt for API method
   const apiMethod = await Select.prompt<ApiMethodOptions>({
-    message: "Choose an API method:",
+    message: "Select the API route method:",
     options: [
-      ApiMethodOptions.GET,
       ApiMethodOptions.POST,
+      ApiMethodOptions.GET,
       ApiMethodOptions.PUT,
       ApiMethodOptions.DELETE,
     ],
