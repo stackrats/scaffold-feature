@@ -1,7 +1,7 @@
 {
   "name": "@stackrats/scaffold-feature",
   "description": "A Deno CLI tool to scaffold a new feature",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "exports": {
     "./main.ts": "./main.ts"

@@ -20,11 +20,18 @@ function isKebabCase(str: string): boolean {
   return /^[a-z]+(-[a-z]+)*$/.test(str);
 }
 
-function isKebabCasePath(str: string): boolean {
+function isKebabCaseOrUnderscorePathOrUnderscore(str: string): boolean {
   // Split the string by forward slash or backslash
   const segments = str.split(/[\/\\]+/);
   // Check if each segment is in kebab-case
-  return segments.every((segment) => isKebabCase(segment));
+  return segments.every((segment) => {    
+    // Allow segments starting with underscore, then check rest for kebab-case
+    if (segment.startsWith('_')) {
+      return isKebabCase(segment.substring(1));
+    }
+    // Normal kebab-case check for other segments
+    return isKebabCase(segment);
+  });
 }
 
 // Interfaces for Type Safety
@@ -84,26 +91,51 @@ async function fetchTemplate(
 }
 
 async function main(): Promise<void> {
+  // First, prompt for root directory selection
+  const rootDirOptions = [
+    { name: "@/features/", value: "src/features" },
+    { name: "@/shared/features", value: "src/shared/features" },
+    { name: "@/", value: "src" }
+  ]
+  
+  const rootDir = await Select.prompt({
+    message: "Select root directory:",
+    options: rootDirOptions,
+    default: "features"
+  });
+
   let parentDir = "";
   // Prompt for parent directory and enforce kebab-case for each segment
   while (true) {
     parentDir = await Input.prompt({
-      message:
-        "Enter parent directory (or leave empty for features/):",
+      message: "Enter subdirectory (or leave empty):",
+      default: rootDir + "/",
     });
+    
+    // Create dynamic regex pattern from rootDirOptions values
+    const dirValues = rootDirOptions.map(opt => opt.value); 
+    const dirPattern = new RegExp(`^(${dirValues.join('|')})\\/`);
+    
+    // Remove the root directory prefix if user kept it
+    parentDir = parentDir.replace(dirPattern, "");
 
-    if (!parentDir) {
+     // Check if parentDir is empty or matches a root option exactly
+     if (!parentDir || dirValues.includes(parentDir)) {
+      parentDir = ""; // Reset to empty if no subdirectory
       break;
     }
 
-    if (isKebabCasePath(parentDir)) {
+    if (isKebabCaseOrUnderscorePathOrUnderscore(parentDir)) {
       break;
     } else {
       console.log(
-        "Parent directory must be in kebab-case (e.g., 'my-parent-dir/sub-dir'). Please try again.",
+        "Directory path must be in kebab-case (e.g., 'my-parent-dir/sub-dir'). Please try again.",
       );
     }
   }
+
+  // Combine the root and parent dir
+  const fullPath = parentDir ? `${rootDir}/${parentDir}` : rootDir;
 
   let featureName = "";
   // Prompt for feature name and enforce kebab-case
@@ -219,6 +251,12 @@ async function main(): Promise<void> {
           {
             name: `map-${featureName}-rsp-to-dto.ts`,
             template: "map-rsp-to-dto-template.txt",
+          },
+        ],
+        "model/types/requests": [
+          {
+            name: `${toPascalCase(featureName)}Req.ts`,
+            template: "req-template.txt",
           },
         ],
         "model/types/responses": [
@@ -460,7 +498,7 @@ async function main(): Promise<void> {
 
   // Ensure selected directories exist
   for (const dir of selectedDirectories) {
-    const fullDirPath = join("src/features", parentDir, featureName, dir);
+    const fullDirPath = join(fullPath, featureName, dir);
     await ensureDir(fullDirPath);
   }
 
@@ -505,7 +543,7 @@ async function main(): Promise<void> {
 
   // Create files
   for (const file of files) {
-    const dirPath = join("src/features", parentDir, featureName, file.path);
+    const dirPath = join(fullPath, featureName, file.path);
     const filePath = join(dirPath, file.name);
 
     try {
@@ -537,7 +575,7 @@ async function main(): Promise<void> {
           // Replace placeholders
           let content = templateContent.replace(
             /\{\{featurePath\}\}/g,
-            featurePath,
+            fullPath,
           );
           content = content.replace(/\{\{feature-name\}\}/g, featureName);
           content = content.replace(
