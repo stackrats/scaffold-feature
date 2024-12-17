@@ -24,9 +24,9 @@ function isKebabCaseOrUnderscorePathOrUnderscore(str: string): boolean {
   // Split the string by forward slash or backslash
   const segments = str.split(/[\/\\]+/);
   // Check if each segment is in kebab-case
-  return segments.every((segment) => {    
+  return segments.every((segment) => {
     // Allow segments starting with underscore, then check rest for kebab-case
-    if (segment.startsWith('_')) {
+    if (segment.startsWith("_")) {
       return isKebabCase(segment.substring(1));
     }
     // Normal kebab-case check for other segments
@@ -95,32 +95,32 @@ async function main(): Promise<void> {
   const rootDirOptions = [
     { name: "@/features/", value: "src/features" },
     { name: "@/shared/features", value: "src/shared/features" },
-    { name: "@/", value: "src" }
-  ]
-  
+    { name: "@/", value: "src" },
+  ];
+
   const rootDir = await Select.prompt({
     message: "Select root directory:",
     options: rootDirOptions,
-    default: "features"
+    default: "features",
   });
 
   let parentDir = "";
   // Prompt for parent directory and enforce kebab-case for each segment
   while (true) {
     parentDir = await Input.prompt({
-      message: "Enter subdirectory (or leave empty):",
+      message: "Enter subdirectory (optional):",
       default: rootDir + "/",
     });
-    
+
     // Create dynamic regex pattern from rootDirOptions values
-    const dirValues = rootDirOptions.map(opt => opt.value); 
-    const dirPattern = new RegExp(`^(${dirValues.join('|')})\\/`);
-    
+    const dirValues = rootDirOptions.map((opt) => opt.value);
+    const dirPattern = new RegExp(`^(${dirValues.join("|")})\\/`);
+
     // Remove the root directory prefix if user kept it
     parentDir = parentDir.replace(dirPattern, "");
 
-     // Check if parentDir is empty or matches a root option exactly
-     if (!parentDir || dirValues.includes(parentDir)) {
+    // Check if parentDir is empty or matches a root option exactly
+    if (!parentDir || dirValues.includes(parentDir)) {
       parentDir = ""; // Reset to empty if no subdirectory
       break;
     }
@@ -534,7 +534,8 @@ async function main(): Promise<void> {
   );
 
   // Define root path
-  const rootPath = "features";
+  const rootPath = rootDirOptions.find((opt) => opt.value === rootDir)?.name ??
+    "";
 
   // Construct the full feature path
   const featurePath = parentDir
@@ -575,7 +576,7 @@ async function main(): Promise<void> {
           // Replace placeholders
           let content = templateContent.replace(
             /\{\{featurePath\}\}/g,
-            fullPath,
+            featurePath,
           );
           content = content.replace(/\{\{feature-name\}\}/g, featureName);
           content = content.replace(

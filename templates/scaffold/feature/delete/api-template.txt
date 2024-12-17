@@ -2,7 +2,7 @@ import { ApiMethods } from '@/shared/model/enums/api/ApiMethods'
 import { useApiRequest } from '@/composables/useApiRequest'
 
 import type { AxiosResponse } from 'axios'
-import type { {{FeatureName}}Req } from '@/{{featurePath}}/model/types/requests/{{FeatureName}}Req'
+import type { {{FeatureName}}Req } from '{{featurePath}}/model/types/requests/{{FeatureName}}Req'
 
 export const api{{FeatureName}} = async (
   req: {{FeatureName}}Req,

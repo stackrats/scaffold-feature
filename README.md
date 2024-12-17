@@ -4,7 +4,6 @@ Run CLI script
 
     deno task start
 
-
 Publish to JSR
 
     deno publish
@@ -18,4 +17,3 @@ To run from npm add this to scripts with latest version
 Then you can call the script
 
     npm run scaffold:feature
-

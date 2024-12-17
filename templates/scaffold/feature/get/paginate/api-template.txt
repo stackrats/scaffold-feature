@@ -2,8 +2,8 @@ import { ApiMethods } from '@/shared/model/enums/api/ApiMethods'
 import { useApiRequest } from '@/composables/useApiRequest'
 
 import type { PaginationRsp } from '@/shared/model/types/PaginationRsp'
-import type { {{FeatureName}}Rsp } from '@/{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'
-import type { {{FeatureName}}Req } from '@/{{featurePath}}/model/types/requests/{{FeatureName}}Req'
+import type { {{FeatureName}}Rsp } from '{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'
+import type { {{FeatureName}}Req } from '{{featurePath}}/model/types/requests/{{FeatureName}}Req'
 
 export const api{{FeatureName}} = async (
   req: {{FeatureName}}Req,

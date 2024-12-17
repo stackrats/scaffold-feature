@@ -2,11 +2,11 @@ import { required } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 
 import type { Ref } from 'vue'
-import type { {{FeatureName}}Dto } from '@/{{featurePath}}/model/types/{{FeatureName}}Dto'
+import type { {{FeatureName}}Dto } from '{{featurePath}}/model/types/{{FeatureName}}Dto'
 
-export function {{featureName}}ValidationRules(
+export const {{featureName}}ValidationRules = (
   dto: Ref<{{FeatureName}}Dto>,
-) {
+) => {
   return useVuelidate(
     {
       dto: {

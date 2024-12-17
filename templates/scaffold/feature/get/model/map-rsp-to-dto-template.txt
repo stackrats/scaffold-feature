@@ -1,9 +1,9 @@
-import type { {{FeatureName}}Rsp } from '@/{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'
-import type { {{FeatureName}}Dto } from '@/{{featurePath}}/model/types/{{FeatureName}}Dto'
+import type { {{FeatureName}}Rsp } from '{{featurePath}}/model/types/responses/{{FeatureName}}Rsp'
+import type { {{FeatureName}}Dto } from '{{featurePath}}/model/types/{{FeatureName}}Dto'
 
-export function map{{FeatureName}}RspToDto(
+export const map{{FeatureName}}RspToDto = (
   rsp: {{FeatureName}}Rsp,
-): {{FeatureName}}Dto {
+): {{FeatureName}}Dto => {
   return {
     id: rsp.id,
   }

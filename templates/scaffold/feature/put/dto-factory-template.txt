@@ -1,6 +1,6 @@
-import type { {{FeatureName}}Dto } from '@/{{featurePath}}/model/types/{{FeatureName}}Dto'
+import type { {{FeatureName}}Dto } from '{{featurePath}}/model/types/{{FeatureName}}Dto'
 
-export function {{featureName}}DtoFactory(): {{FeatureName}}Dto {
+export const {{featureName}}DtoFactory = (): {{FeatureName}}Dto => {
   return {
     name: '',
   }
