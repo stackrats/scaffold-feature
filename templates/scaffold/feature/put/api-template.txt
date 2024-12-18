@@ -11,7 +11,7 @@ export const api{{FeatureName}} = async (
   const { apiRequest } = useApiRequest()
 
   return await apiRequest({
-    method: ApiMethods.POST,
+    method: ApiMethods.PUT,
     url: '{{feature-name}}',
     data: req,
     actions: [],
